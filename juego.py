@@ -14,13 +14,13 @@ pantalla = pygame.display.set_mode( (ancho, alto) )
 pygame.key.set_repeat(1,25)
 reloj = pygame.time.Clock()
 #mi nave
-imagenNave = pygame.image.load("nave.bmp")
+imagenNave = pygame.image.load("nave.png")
 rectanguloNave = imagenNave.get_rect()
 rectanguloNave.left = ancho/2
 rectanguloNave.top = 519
 naveEstado=True
 #---------------enemigo---------------------------
-imagenUfo=pygame.image.load("ufo.bmp")
+imagenUfo=pygame.image.load("ufo.png")
 rectangulosUfos={}
 ufosEstado={}
 velocidadesx={}
@@ -32,13 +32,17 @@ for i in range(0,cantidadEnemigos+1):
     ufosEstado[i]=True
     velocidadesx[i]=3
     velocidadesy[i]=3
+    #sonido
+pygame.mixer.music.load('sonido.mp3')
+pygame.mixer.music.play(2)
+#----------------------------
 #------------------------------------------------
 #el disparo
-imagenDisparo = pygame.image.load("disparo.bmp")    
+imagenDisparo = pygame.image.load("disparo.png")    
 rectanguloDisparo = imagenDisparo.get_rect()        
 disparoEstado = False
 #-----------------disparos enemigos------------------------
-imagenDisparor = pygame.image.load("disparor.bmp")
+imagenDisparor = pygame.image.load("disparor.png")
 rectangulosDisparors={}
 disparorEstado={}
 for i in range(0,cantidadEnemigos+1):
