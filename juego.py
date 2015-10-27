@@ -19,7 +19,7 @@ rectanguloNave = imagenNave.get_rect()
 rectanguloNave.left = ancho/2
 rectanguloNave.top = 519
 naveEstado=True
-#---------------enemigo---------------------------
+#---------------enemigo-sad--------------------------
 imagenUfo=pygame.image.load("ufo.png")
 rectangulosUfos={}
 ufosEstado={}
