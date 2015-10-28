@@ -3,7 +3,7 @@ from pygame.locals import *
 import random
 
 pygame.init()
-//cambio de prueba
+#----cambio de prueba
 ancho = 800
 alto = 600
 cantidadEnemigos = 2
