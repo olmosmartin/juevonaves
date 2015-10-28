@@ -6,7 +6,7 @@ pygame.init()
 #------cambio de prueba
 ancho = 800
 alto = 600
-cantidadEnemigos = 2
+cantidadEnemigos = 3
 fin = False    
 reloj = pygame.time.Clock()
 
@@ -30,8 +30,8 @@ for i in range(0,cantidadEnemigos+1):
     rectangulosUfos[i].left = random.randrange(0,720)
     rectangulosUfos[i].top = random.randrange(0,200)
     ufosEstado[i]=True
-    velocidadesx[i]=3
-    velocidadesy[i]=3
+    velocidadesx[i]=2
+    velocidadesy[i]=2
     #sonido
 pygame.mixer.music.load('sonido.mp3')
 pygame.mixer.music.play(2)
