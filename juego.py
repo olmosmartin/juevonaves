@@ -65,7 +65,9 @@ while not fin:
         rectanguloNave.top += 4
 #boton de disparo
     if keys[K_SPACE] and not disparoEstado and naveEstado:         
-        disparoEstado = True                       
+        disparoEstado = True
+        sonido = pygame.mixer.Sound("sonidoDisparos.wav") #sonido!!!!!!!
+        sonido.play() #sonido!!!!!!!
         rectanguloDisparo.left = rectanguloNave.left +23 
         rectanguloDisparo.top = rectanguloNave.top - 25  
 #movimiento del enemigo
@@ -76,6 +78,8 @@ while not fin:
 #movimiento disparo enemigo
         if not disparorEstado[i] and ufosEstado[i]:
             disparorEstado[i]=True
+            sonido = pygame.mixer.Sound("sonidoDisparos.wav") #sonido!!!!!!!
+            sonido.play() #sonido!!!!!!!
             rectangulosDisparors[i].left = rectangulosUfos[i].left +50
             rectangulosDisparors[i].top = rectangulosUfos[i].top +30
 
@@ -96,11 +100,15 @@ while not fin:
     for i in range(0,cantidadEnemigos+1):
         if naveEstado and disparoEstado and ufosEstado[i]:
             if rectanguloDisparo.colliderect( rectangulosUfos[i]):
+                sonido = pygame.mixer.Sound("explode.wav") #sonido!!!!!!!
+                sonido.play() #sonido!!!!!!!
                 ufosEstado[i]=False
                 disparoEstado=False
 
         if disparoEstado and ufosEstado[i]:
             if rectanguloDisparo.colliderect( rectangulosUfos[i]):
+                sonido = pygame.mixer.Sound("explode.wav") #sonido!!!!!!!
+                sonido.play() #sonido!!!!!!!
                 ufosEstado[i]=False
                 disparoEstado=False
     
