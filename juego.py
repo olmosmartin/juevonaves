@@ -176,6 +176,11 @@ while partidaEnMarcha:
 
         #------------dibujos en pantalla----------------------------
         pantalla.fill( (0,0,0) )
+        imagenEstrellas = pygame.image.load("estrellas2.jpg")
+        rectanguloEstrellas = imagenEstrellas.get_rect()
+        rectanguloEstrellas.top = 0
+        rectanguloEstrellas.left = 0
+        pantalla.blit(imagenEstrellas, rectanguloEstrellas)
         for i in range(0,cantidadEnemigos+1):
             if ufosEstado[i]:
                 pantalla.blit(imagenUfo, rectangulosUfos[i])
