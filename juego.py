@@ -6,7 +6,7 @@ pygame.init()
 #------cambio de prueba
 ancho = 800
 alto = 600
-cantidadEnemigos = 3
+cantidadEnemigos = 2
 
 reloj = pygame.time.Clock()
 
@@ -16,6 +16,10 @@ reloj = pygame.time.Clock()
 #mi nave
 imagenNave = pygame.image.load("nave.png")
 rectanguloNave = imagenNave.get_rect()
+#-------------corazon imagen----------------------
+imagenCorazon = pygame.image.load("corazon.png")
+rectanguloCorazon = imagenCorazon.get_rect()
+
 #-------------------estrella de la muerte nave y disparo---------------
 imagenNaveMuerte = pygame.image.load("estrelladelamuerte.jpg")#estrella de la muerte
 rectanguloNaveMuerte = imagenNaveMuerte.get_rect()#estrella de la muerte
@@ -81,7 +85,9 @@ while partidaEnMarcha:
     velocidadDisparor = 6#nuevo para velocidad
     vidasNave=100#vidasde la nave
     vidasEnemigo=25#vidasde la estrella de la muerte
-
+    #-----------posicion del corazon al caer----------------------
+    rectanguloCorazon.left = random.randrange(0,720)
+    rectanguloCorazon.top = 0
     #--------------opciones de estrella de la muerte-----------------------------
     velocidadMuerte= 4
     rectanguloNaveMuerte.left = ancho/2
@@ -102,6 +108,7 @@ while partidaEnMarcha:
         rectangulosDisparors[i]=imagenDisparor.get_rect()
         disparorEstado[i]=False
 
+    corazonEstado=False
     disparoEstado = False
     terminado = False
 
@@ -147,6 +154,11 @@ while partidaEnMarcha:
             if rectanguloDisparoMuerte.top > 600:
                 disparoMuerteEstado = False
 
+        #movimiento del corazon-----------------------------
+        if corazonEstado:
+            rectanguloCorazon.top += 4
+            if rectanguloCorazon.top > 600:
+                corazonEstado = False
 
 #movimiento del enemigo
         for i in range(0,cantidadEnemigos+1):
@@ -173,6 +185,14 @@ while partidaEnMarcha:
             rectanguloDisparo.top -= 6
             if rectanguloDisparo.top <= 0:
                 disparoEstado = False
+
+    #colision corazon
+        if corazonEstado:
+            if rectanguloCorazon.colliderect( rectanguloNave):
+                corazonEstado=False
+                sonido = pygame.mixer.Sound("corazon.wav") #sonido!!!!!!!
+                sonido.play() #sonido!!!!!!!
+                vidasNave=100
 
     #Comprobar colisiones (contra enemigo)
         for i in range(0,cantidadEnemigos+1):
@@ -210,10 +230,10 @@ while partidaEnMarcha:
             if disparoEstado:
                 if rectanguloDisparo.colliderect( rectanguloNaveMuerte) :
                     vidasEnemigo=vidasEnemigo-1
+                    sonido = pygame.mixer.Sound("explode.wav") #sonido!!!!!!!
+                    sonido.play() #sonido!!!!!!!
                     if vidasEnemigo<=0:
                         estrellaMuerteVisible = False
-                        sonido = pygame.mixer.Sound("explode.wav") #sonido!!!!!!!
-                        sonido.play() #sonido!!!!!!!
                         puntos+=30
 
         if disparoMuerteEstado:
@@ -235,6 +255,9 @@ while partidaEnMarcha:
             velocidadDisparor += 1
             vidasEnemigo =25
 
+            if nivel==3 or nivel==5 or nivel==7 or nivel==9 or nivel==11:
+                corazonEstado=True
+
             if(velocidadMuerte<0):
                 velocidadMuerte=velocidadMuerte-1
             if(velocidadMuerte>0):
@@ -255,6 +278,11 @@ while partidaEnMarcha:
         rectanguloEstrellas.top = 0
         rectanguloEstrellas.left = 0
         pantalla.blit(imagenEstrellas, rectanguloEstrellas)
+
+        #corazon dibujo----------------
+        if corazonEstado:
+            pantalla.blit(imagenCorazon, rectanguloCorazon)
+
         for i in range(0,cantidadEnemigos+1):
             if ufosEstado[i]:
                 pantalla.blit(imagenUfo, rectangulosUfos[i])
@@ -281,8 +309,10 @@ while partidaEnMarcha:
             rectanguloFin.top = 0
             rectanguloFin.left = 0
             pantalla.blit(imagenFin, rectanguloFin)
+            sonido = pygame.mixer.Sound("gameover.wav") #sonido!!!!!!!
+            sonido.play() #sonido!!!!!!!
             pygame.display.flip()
-            pygame.time.wait(1000)
+            pygame.time.wait(2000)
 
         #cambio de nivel en pantalla-------------------------------------------------------
         imagenNivel = letra30.render('nivel: '+str(nivel),True, (200,200,200), (0,0,0) )
