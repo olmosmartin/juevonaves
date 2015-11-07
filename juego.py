@@ -186,7 +186,16 @@ while partidaEnMarcha:
         for i in range(0,cantidadEnemigos+1):
                 if disparorEstado[i]:
                     pantalla.blit(imagenDisparor, rectangulosDisparors[i])
-        #-----------------------------------------------
+        #----------------------pantalla game over-------------------------
+                    
+        if terminado==True:
+            imagenFin = pygame.image.load("gameover.jpg")
+            rectanguloFin = imagenFin.get_rect()
+            rectanguloFin.top = 0
+            rectanguloFin.left = 0
+            pantalla.blit(imagenFin, rectanguloFin)
+            pygame.display.flip()
+            pygame.time.wait(1000)
 
         #cambio de nivel en pantalla-------------------------------------------------------
         imagenNivel = letra30.render('nivel: '+str(nivel),True, (200,200,200), (0,0,0) )
