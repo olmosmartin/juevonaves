@@ -79,6 +79,8 @@ while partidaEnMarcha:
     velocidadEnemigo=2
     velocidadDisparoMuerte = 8#nuevo para estrella de la muerte
     velocidadDisparor = 6#nuevo para velocidad
+    vidasNave=100#vidasde la nave
+    vidasEnemigo=25#vidasde la estrella de la muerte
 
     #--------------opciones de estrella de la muerte-----------------------------
     velocidadMuerte= 4
@@ -102,7 +104,6 @@ while partidaEnMarcha:
 
     disparoEstado = False
     terminado = False
-    vidasNave=100#vidasde la nave
 
     while not terminado:
 # prueba respuesta
@@ -208,11 +209,12 @@ while partidaEnMarcha:
 
             if disparoEstado:
                 if rectanguloDisparo.colliderect( rectanguloNaveMuerte) :
-                    estrellaMuerteVisible = False
-                    sonido = pygame.mixer.Sound("explode.wav") #sonido!!!!!!!
-                    sonido.play() #sonido!!!!!!!
-                    disparoEstado = False
-                    puntos+=30
+                    vidasEnemigo=vidasEnemigo-1
+                    if vidasEnemigo<=0:
+                        estrellaMuerteVisible = False
+                        sonido = pygame.mixer.Sound("explode.wav") #sonido!!!!!!!
+                        sonido.play() #sonido!!!!!!!
+                        puntos+=30
 
         if disparoMuerteEstado:
             if rectanguloDisparoMuerte.colliderect( rectanguloNave):
@@ -231,6 +233,7 @@ while partidaEnMarcha:
             estrellaMuerteVisible=True
             velocidadDisparoMuerte += 1
             velocidadDisparor += 1
+            vidasEnemigo =25
 
             if(velocidadMuerte<0):
                 velocidadMuerte=velocidadMuerte-1
@@ -296,11 +299,18 @@ while partidaEnMarcha:
         pantalla.blit(imagenPuntos, rectanguloPuntos)
 
         #vidas -dibujo--------------------------------------
-        imagenPuntos = letra30.render('cantidad vida %'+str(vidasNave),True, (200,200,200), (0,0,0) )
-        rectanguloPuntos = imagenPuntos.get_rect()
-        rectanguloPuntos.left = 250
-        rectanguloPuntos.top = 10
-        pantalla.blit(imagenPuntos, rectanguloPuntos)
+        imagenVidaNave = letra30.render('cantidad vida %'+str(vidasNave),True, (200,200,200), (0,0,0) )
+        rectanguloVidaNave = imagenVidaNave.get_rect()
+        rectanguloVidaNave.left = 250
+        rectanguloVidaNave.top = 10
+        pantalla.blit(imagenVidaNave, rectanguloVidaNave)
+
+        #vidas enemigo --------------------------------------
+        imagenVidaEnemigo = letra30.render('cantidad vida estrella %'+str(vidasEnemigo),True, (200,200,200), (0,0,0) )
+        rectanguloVidaEnemigo = imagenVidaEnemigo.get_rect()
+        rectanguloVidaEnemigo.left = 500
+        rectanguloVidaEnemigo.top = 10
+        pantalla.blit(imagenVidaEnemigo, rectanguloVidaEnemigo)
 
         pygame.display.flip()
 
