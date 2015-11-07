@@ -16,6 +16,12 @@ reloj = pygame.time.Clock()
 #mi nave
 imagenNave = pygame.image.load("nave.png")
 rectanguloNave = imagenNave.get_rect()
+#-------------------estrella de la muerte nave y disparo---------------
+imagenNaveMuerte = pygame.image.load("estrelladelamuerte.jpg")#estrella de la muerte
+rectanguloNaveMuerte = imagenNaveMuerte.get_rect()#estrella de la muerte
+
+imagenDisparoMuerte = pygame.image.load("disparodelamuerte.jpg")#estrella de la muerte(disparo)
+rectanguloDisparoMuerte = imagenDisparoMuerte.get_rect()#estrella de la muerte(disparo)
 
 #---------------enemigo-sad--------------------------
 imagenUfo=pygame.image.load("ufo.png")
@@ -71,6 +77,17 @@ while partidaEnMarcha:
     rectanguloNave.left = ancho/2
     rectanguloNave.top = alto-50
     velocidadEnemigo=2
+    velocidadDisparoMuerte = 8#nuevo para estrella de la muerte
+    velocidadDisparor = 6#nuevo para velocidad
+
+    #--------------opciones de estrella de la muerte-----------------------------
+    velocidadMuerte= 4
+    rectanguloNaveMuerte.left = ancho/2
+    rectanguloNaveMuerte.top = 50
+    disparoMuerteEstado=False
+    estrellaMuerteVisible=True
+    rectanguloDisparoMuerte=imagenDisparoMuerte.get_rect()
+
     for i in range(0,cantidadEnemigos+1):
         rectangulosUfos[i]=imagenUfo.get_rect()
         rectangulosUfos[i].left = random.randrange(0,720)
@@ -110,6 +127,25 @@ while partidaEnMarcha:
             rectanguloDisparo.left = rectanguloNave.left + 18
             rectanguloDisparo.top = rectanguloNave.top - 25
 
+
+        #----------------------movimientos de estrella de la muerte(tambien disparo)--------------
+        rectanguloNaveMuerte.left += velocidadMuerte
+        if rectanguloNaveMuerte.left < 0 or rectanguloNaveMuerte.right > ancho:
+            velocidadMuerte = -velocidadMuerte
+
+        if not disparoMuerteEstado and estrellaMuerteVisible:
+            disparoMuerteEstado=True
+            sonido = pygame.mixer.Sound("sonidoDisparos.wav") #sonido!!!!!!!
+            sonido.play() #sonido!!!!!!!
+            rectanguloDisparoMuerte.left = rectanguloNaveMuerte.left +50
+            rectanguloDisparoMuerte.top = rectanguloNaveMuerte.top +30
+
+        if disparoMuerteEstado:
+            rectanguloDisparoMuerte.top += velocidadDisparoMuerte
+            if rectanguloDisparoMuerte.top > 600:
+                disparoMuerteEstado = False
+
+
 #movimiento del enemigo
         for i in range(0,cantidadEnemigos+1):
             rectangulosUfos[i].left += velocidadesx[i]
@@ -126,7 +162,7 @@ while partidaEnMarcha:
     #movimiento disparo enemigo
         for i in range(0,cantidadEnemigos+1):
             if disparorEstado[i]:
-                rectangulosDisparors[i].top += 6
+                rectangulosDisparors[i].top += velocidadDisparor
                 if rectangulosDisparors[i].top > 600:
                     disparorEstado[i] = False
 
@@ -158,14 +194,44 @@ while partidaEnMarcha:
                     sonido.play() #sonido!!!!!!!
                     terminado=True
 
+        #-----------prueba coliciones estrella de la muerte(tambien disparo)-----------------------
+        if disparoMuerteEstado:
+            if rectanguloDisparoMuerte.colliderect( rectanguloNave):
+                sonido = pygame.mixer.Sound("explode.wav") #sonido!!!!!!!
+                sonido.play() #sonido!!!!!!!
+                terminado=True
+
+            if disparoEstado:
+                if rectanguloDisparo.colliderect( rectanguloNaveMuerte) :
+                    estrellaMuerteVisible = False
+                    sonido = pygame.mixer.Sound("explode.wav") #sonido!!!!!!!
+                    sonido.play() #sonido!!!!!!!
+                    disparoEstado = False
+                    puntos+=30
+
+        if disparoMuerteEstado:
+            if rectanguloDisparoMuerte.colliderect( rectanguloNave):
+                sonido = pygame.mixer.Sound("explode.wav") #sonido!!!!!!!
+                sonido.play() #sonido!!!!!!!
+                terminado=True
+
 
         cantidadEnemigosActual=0
         for i in range(0,cantidadEnemigos+1):
             if ufosEstado[i]:
                 cantidadEnemigosActual=cantidadEnemigosActual+1
         #--------------control de niveles---------------------------------
-        if cantidadEnemigosActual==0:
+        if cantidadEnemigosActual==0 and not estrellaMuerteVisible:
             nivel=nivel+1
+            estrellaMuerteVisible=True
+            velocidadDisparoMuerte += 1
+            velocidadDisparor += 1
+
+            if(velocidadMuerte<0):
+                velocidadMuerte=velocidadMuerte-1
+            if(velocidadMuerte>0):
+                velocidadMuerte=velocidadMuerte+1
+
             for i in range(0,cantidadEnemigos+1):
                 ufosEstado[i]=True
                 #incrementa velocidad por nivel
@@ -187,6 +253,13 @@ while partidaEnMarcha:
         if disparoEstado:
             pantalla.blit(imagenDisparo, rectanguloDisparo)
         pantalla.blit(imagenNave, rectanguloNave)
+
+        #dibuja disparo de la muerte y estrella de la muerte--------
+        if disparoMuerteEstado:
+            pantalla.blit(imagenDisparoMuerte, rectanguloDisparoMuerte)
+
+        if estrellaMuerteVisible:
+            pantalla.blit(imagenNaveMuerte, rectanguloNaveMuerte)
 
         for i in range(0,cantidadEnemigos+1):
                 if disparorEstado[i]:
