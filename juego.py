@@ -37,8 +37,8 @@ disparorEstado={}
 #----------------pantalla de inicio--------------------------
 imagenPresent = pygame.image.load("inicio.jpg")
 rectanguloPresent = imagenPresent.get_rect()
-rectanguloPresent.top = 60
-rectanguloPresent.left = 80
+rectanguloPresent.top = 0
+rectanguloPresent.left = 0
 
 letra30 = pygame.font.SysFont("Arial", 30)
 imagenTextoPresent = letra30.render('espacio para jugar',True, (200,200,200), (0,0,0) )
@@ -189,6 +189,7 @@ while partidaEnMarcha:
         #----------------------pantalla game over-------------------------
                     
         if terminado==True:
+            pantalla.fill( (0,0,0) )
             imagenFin = pygame.image.load("gameover.jpg")
             rectanguloFin = imagenFin.get_rect()
             rectanguloFin.top = 0
