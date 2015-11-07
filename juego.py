@@ -91,7 +91,7 @@ while partidaEnMarcha:
     #--------------opciones de estrella de la muerte-----------------------------
     velocidadMuerte= 4
     rectanguloNaveMuerte.left = ancho/2
-    rectanguloNaveMuerte.top = 50
+    rectanguloNaveMuerte.top = 25
     disparoMuerteEstado=False
     estrellaMuerteVisible=True
     rectanguloDisparoMuerte=imagenDisparoMuerte.get_rect()
@@ -250,13 +250,18 @@ while partidaEnMarcha:
         #--------------control de niveles---------------------------------
         if cantidadEnemigosActual==0 and not estrellaMuerteVisible:
             nivel=nivel+1
+
+            rectanguloNaveMuerte.left = random.randrange(0,720)
+            rectanguloNaveMuerte.top = 25
             estrellaMuerteVisible=True
             velocidadDisparoMuerte += 1
             velocidadDisparor += 1
             vidasEnemigo =25
 
-            if nivel==3 or nivel==5 or nivel==7 or nivel==9 or nivel==11:
-                corazonEstado=True
+            corazonEstado=True
+            rectanguloCorazon.top = 0
+            rectanguloCorazon.left = random.randrange(0,720)
+
 
             if(velocidadMuerte<0):
                 velocidadMuerte=velocidadMuerte-1
@@ -265,6 +270,8 @@ while partidaEnMarcha:
 
             for i in range(0,cantidadEnemigos+1):
                 ufosEstado[i]=True
+                rectangulosUfos[i].left = random.randrange(0,720)
+                rectangulosUfos[i].top = random.randrange(0,200)
                 #incrementa velocidad por nivel
                 if(velocidadesx[i]<0):
                     velocidadesx[i]=velocidadesx[i]-1
