@@ -102,6 +102,7 @@ while partidaEnMarcha:
 
     disparoEstado = False
     terminado = False
+    vidasNave=100#vidasde la nave
 
     while not terminado:
 # prueba respuesta
@@ -176,7 +177,9 @@ while partidaEnMarcha:
         for i in range(0,cantidadEnemigos+1):
             if ufosEstado[i]:
                 if rectanguloNave.colliderect( rectangulosUfos[i]):
-                    terminado=True
+                    vidasNave=vidasNave-1#vidas
+                    if vidasNave<=0:
+                        terminado=True
 
                 if disparoEstado:
                     if rectanguloDisparo.colliderect( rectangulosUfos[i]):
@@ -192,11 +195,13 @@ while partidaEnMarcha:
                 if rectangulosDisparors[i].colliderect( rectanguloNave):
                     sonido = pygame.mixer.Sound("explode.wav") #sonido!!!!!!!
                     sonido.play() #sonido!!!!!!!
-                    terminado=True
+                    vidasNave=vidasNave-1#vidas
+                    if vidasNave<=0:
+                        terminado=True
 
         #-----------prueba coliciones estrella de la muerte(tambien disparo)-----------------------
-        if disparoMuerteEstado:
-            if rectanguloDisparoMuerte.colliderect( rectanguloNave):
+        if estrellaMuerteVisible:
+            if rectanguloNaveMuerte.colliderect( rectanguloNave):
                 sonido = pygame.mixer.Sound("explode.wav") #sonido!!!!!!!
                 sonido.play() #sonido!!!!!!!
                 terminado=True
@@ -287,6 +292,13 @@ while partidaEnMarcha:
         imagenPuntos = letra30.render('Puntos '+str(puntos),True, (200,200,200), (0,0,0) )
         rectanguloPuntos = imagenPuntos.get_rect()
         rectanguloPuntos.left = 10
+        rectanguloPuntos.top = 10
+        pantalla.blit(imagenPuntos, rectanguloPuntos)
+
+        #vidas -dibujo--------------------------------------
+        imagenPuntos = letra30.render('cantidad vida %'+str(vidasNave),True, (200,200,200), (0,0,0) )
+        rectanguloPuntos = imagenPuntos.get_rect()
+        rectanguloPuntos.left = 250
         rectanguloPuntos.top = 10
         pantalla.blit(imagenPuntos, rectanguloPuntos)
 
