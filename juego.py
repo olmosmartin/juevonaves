@@ -146,6 +146,7 @@ while partidaEnMarcha:
                         ufosEstado[i]=False
                         sonido = pygame.mixer.Sound("explode.wav") #sonido!!!!!!!
                         sonido.play() #sonido!!!!!!!
+                        puntos+=10
                         disparoEstado=False
 
         #probar colisiones del disparo enemigo contra mi nave
@@ -155,6 +156,7 @@ while partidaEnMarcha:
                     sonido = pygame.mixer.Sound("explode.wav") #sonido!!!!!!!
                     sonido.play() #sonido!!!!!!!
                     terminado=True
+
 
         cantidadEnemigosActual=0
         for i in range(0,cantidadEnemigos+1):
@@ -178,6 +180,14 @@ while partidaEnMarcha:
                 if disparorEstado[i]:
                     pantalla.blit(imagenDisparor, rectangulosDisparors[i])
         #-----------------------------------------------
+
+        #puntaje -------------------------------------------
+        imagenPuntos = letra30.render('Puntos '+str(puntos),True, (200,200,200), (0,0,0) )
+        rectanguloPuntos = imagenPuntos.get_rect()
+        rectanguloPuntos.left = 10
+        rectanguloPuntos.top = 10
+        pantalla.blit(imagenPuntos, rectanguloPuntos)
+
         pygame.display.flip()
 
         reloj.tick(60)
