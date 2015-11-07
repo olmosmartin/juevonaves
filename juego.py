@@ -57,6 +57,7 @@ while partidaEnMarcha:
     pantalla.blit(imagenPresent, rectanguloPresent)
     pantalla.blit(imagenTextoPresent, rectanguloTextoPresent)
     pygame.display.flip()
+    nivel=1
 
     entrarAlJuego = False
     while not entrarAlJuego:
@@ -69,14 +70,14 @@ while partidaEnMarcha:
     puntos=0;
     rectanguloNave.left = ancho/2
     rectanguloNave.top = alto-50
-
+    velocidadEnemigo=2
     for i in range(0,cantidadEnemigos+1):
         rectangulosUfos[i]=imagenUfo.get_rect()
         rectangulosUfos[i].left = random.randrange(0,720)
         rectangulosUfos[i].top = random.randrange(0,200)
         ufosEstado[i]=True
-        velocidadesx[i]=2
-        velocidadesy[i]=2
+        velocidadesx[i]=velocidadEnemigo
+        velocidadesy[i]=velocidadEnemigo
 
     for i in range(0,cantidadEnemigos+1):
         rectangulosDisparors[i]=imagenDisparor.get_rect()
@@ -162,12 +163,18 @@ while partidaEnMarcha:
         for i in range(0,cantidadEnemigos+1):
             if ufosEstado[i]:
                 cantidadEnemigosActual=cantidadEnemigosActual+1
-
+        #--------------control de niveles---------------------------------
         if cantidadEnemigosActual==0:
-            terminado = True
+            nivel=nivel+1
+            for i in range(0,cantidadEnemigos+1):
+                ufosEstado[i]=True
+                #incrementa velocidad por nivel
+                if(velocidadesx[i]<0):
+                    velocidadesx[i]=velocidadesx[i]-1
+                if(velocidadesx[i]>0):
+                    velocidadesx[i]=velocidadesx[i]+1
 
-
-        #-----------------------------------------------
+        #------------dibujos en pantalla----------------------------
         pantalla.fill( (0,0,0) )
         for i in range(0,cantidadEnemigos+1):
             if ufosEstado[i]:
@@ -181,7 +188,14 @@ while partidaEnMarcha:
                     pantalla.blit(imagenDisparor, rectangulosDisparors[i])
         #-----------------------------------------------
 
-        #puntaje -------------------------------------------
+        #cambio de nivel en pantalla-------------------------------------------------------
+        imagenNivel = letra30.render('nivel: '+str(nivel),True, (200,200,200), (0,0,0) )
+        rectanguloNivel = imagenNivel.get_rect()
+        rectanguloNivel.left = 150
+        rectanguloNivel.top = 10
+        pantalla.blit(imagenNivel, rectanguloNivel)
+
+        #puntaje en pantalla----------------------------------------------------------------
         imagenPuntos = letra30.render('Puntos '+str(puntos),True, (200,200,200), (0,0,0) )
         rectanguloPuntos = imagenPuntos.get_rect()
         rectanguloPuntos.left = 10
