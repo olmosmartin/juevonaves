@@ -80,16 +80,16 @@ while partidaEnMarcha:
     puntos=0;
     rectanguloNave.left = ancho/2
     rectanguloNave.top = alto-50
-    velocidadEnemigo=2
-    velocidadDisparoMuerte = 8#nuevo para estrella de la muerte
-    velocidadDisparor = 6#nuevo para velocidad
+    velocidadEnemigo=10
+    velocidadDisparoMuerte = 16#nuevo para estrella de la muerte
+    velocidadDisparor = 14#nuevo para velocidad
     vidasNave=100#vidasde la nave
     vidasEnemigo=25#vidasde la estrella de la muerte
     #-----------posicion del corazon al caer----------------------
     rectanguloCorazon.left = random.randrange(0,720)
     rectanguloCorazon.top = 0
     #--------------opciones de estrella de la muerte-----------------------------
-    velocidadMuerte= 4
+    velocidadMuerte= 7
     rectanguloNaveMuerte.left = ancho/2
     rectanguloNaveMuerte.top = 25
     disparoMuerteEstado=False
@@ -121,13 +121,13 @@ while partidaEnMarcha:
         #botones de nave
         keys = pygame.key.get_pressed()
         if keys[K_LEFT] and rectanguloNave.left > 0:
-            rectanguloNave.left -= 4
+            rectanguloNave.left -= 12
         if keys[K_RIGHT] and rectanguloNave.left < 700:
-            rectanguloNave.left += 4
+            rectanguloNave.left += 12
         if keys[K_UP] and rectanguloNave.top > 0:
-            rectanguloNave.top += -4
+            rectanguloNave.top += -12
         if keys[K_DOWN] and rectanguloNave.top < 520:
-            rectanguloNave.top += 4
+            rectanguloNave.top += 12
         if keys[K_SPACE] and not disparoEstado:
             disparoEstado = True
             if disparoEstado:
@@ -156,7 +156,7 @@ while partidaEnMarcha:
 
         #movimiento del corazon-----------------------------
         if corazonEstado:
-            rectanguloCorazon.top += 4
+            rectanguloCorazon.top += 12
             if rectanguloCorazon.top > 600:
                 corazonEstado = False
 
@@ -182,7 +182,7 @@ while partidaEnMarcha:
 
     #movimiento del disparo
         if disparoEstado:
-            rectanguloDisparo.top -= 6
+            rectanguloDisparo.top -= 14
             if rectanguloDisparo.top <= 0:
                 disparoEstado = False
 
